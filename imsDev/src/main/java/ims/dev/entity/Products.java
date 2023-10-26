@@ -1,4 +1,4 @@
-package ims.dev.products.entity;
+package ims.dev.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

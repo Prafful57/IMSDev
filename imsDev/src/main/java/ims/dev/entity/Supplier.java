@@ -1,4 +1,4 @@
-package ims.dev.supplier.entity;
+package ims.dev.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

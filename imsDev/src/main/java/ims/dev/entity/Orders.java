@@ -1,4 +1,4 @@
-package ims.dev.orders.entity;
+package ims.dev.entity;
 
 import java.sql.Date;
 
