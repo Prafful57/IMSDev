@@ -21,6 +21,7 @@ public class Products {
 	private String product_details;
 	private int total_stock;
 	
+
 	
 	
 	public Products() {}
