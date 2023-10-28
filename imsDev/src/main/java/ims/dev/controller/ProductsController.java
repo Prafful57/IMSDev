@@ -29,7 +29,6 @@ import ims.dev.service.ProductsService;
 @RequestMapping("/all-products")
 public class ProductsController {
 
-   
 	@Autowired //(it is used to automatic dependency injection it creates object of ProductService and use when it is needed)
 	private ProductsService proService;
 	
