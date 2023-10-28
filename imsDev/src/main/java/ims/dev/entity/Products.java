@@ -10,18 +10,20 @@ import jakarta.persistence.Table;
 public class Products {
 
 	@Id
+	@GeneratedValue
 	int product_id;
 	
-	String product_name;
-	String catagory;
-	String sub_catagory;
-	int brand_id;
-	double price;
-	String product_details;
-	int total_stock;
-	int supplier_id;
+	private String product_name;
+	private String catagory;
+	private String sub_catagory;
+	private int brand_id;
+	private double price;
+	private String product_details;
+	private int total_stock;
+	private int supplier_id;
 	
 	
+	public Products() {}
 	
 	public Products(int product_id, String product_name, String catagory, String sub_catagory, int brand_id,
 			double price, String product_details, int total_stock, int supplier_id) {
