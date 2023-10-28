@@ -1,7 +1,12 @@
 package ims.dev.controller;
 
+import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
 
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,12 +53,19 @@ public class ProductsController {
 	}
 	
 	@PutMapping("/update-product/{product_id}")
-	public Products updateProduct(@PathVariable int product_id ,@RequestBody Products product) {
+	public ResponseEntity<Products> updateProduct(@PathVariable int product_id ,@RequestBody Products product){
+	         
+			try{
+				if(product.getProduct_id()!=product_id);
+			}catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+	
 		Products product1 = proRepo.findById(product_id).get();
 		product1.setProduct_name(product.getProduct_name());
 		product1.setPrice(product.getPrice());
 		proRepo.save(product1);
-		return product1;
+		return ResponseEntity.accepted().body(product1);
 		
 	}
 
