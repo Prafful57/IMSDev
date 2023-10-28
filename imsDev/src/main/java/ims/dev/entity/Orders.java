@@ -12,11 +12,12 @@ public class Orders {
 
 	@Id
 	int order_id;
-	int product_id;
-	int supplier_id;
-	Date order_date;
-	int order_quantity;
-	String order_Status;
+	
+	private int product_id;
+	private int supplier_id;
+	private Date order_date;
+	private int order_quantity;
+	private String order_Status;
 	
 	
 	

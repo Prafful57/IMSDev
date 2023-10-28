@@ -12,9 +12,10 @@ public class Transctions {
 
 	@Id
 	int transction_id;
-	int product_id;
-	String trancstion_type;
-	Date transction_date;
+	
+	private int product_id;
+	private String trancstion_type;
+	private Date transction_date;
 	
 	
 	public Transctions(int transction_id, int product_id, String trancstion_type, Date transction_date) {

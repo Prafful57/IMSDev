@@ -10,8 +10,9 @@ public class Supplier {
 
 	@Id
 	int supplier_id;
-	String supplier_name;
-	int contact;
+	private String supplier_name;
+	private int contact;
+	
 	public Supplier(int supplier_id, String supplier_name, int contact) {
 		super();
 		this.supplier_id = supplier_id;

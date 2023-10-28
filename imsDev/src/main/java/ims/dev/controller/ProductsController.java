@@ -63,7 +63,12 @@ public class ProductsController {
 	
 		Products product1 = proRepo.findById(product_id).get();
 		product1.setProduct_name(product.getProduct_name());
+		product1.setProduct_details(product.getProduct_details());
 		product1.setPrice(product.getPrice());
+		product1.setCatagory(product.getCatagory());
+		product1.setSub_catagory(product.getSub_catagory());
+		product1.setTotal_stock(product.getTotal_stock());
+		
 		proRepo.save(product1);
 		return ResponseEntity.accepted().body(product1);
 		

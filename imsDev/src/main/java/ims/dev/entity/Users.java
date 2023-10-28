@@ -10,9 +10,10 @@ public class Users {
 
 	@Id
 	int user_id;
-	String user_name;
-	String user_pass;
-	String user_role;
+	
+	private String user_name;
+	private String user_pass;
+	private String user_role;
 	
 	
 	public Users(int user_id, String user_name, String user_pass, String user_role) {

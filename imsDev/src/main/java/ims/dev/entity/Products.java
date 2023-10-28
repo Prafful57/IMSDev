@@ -12,15 +12,15 @@ public class Products {
 	@Id
 	@GeneratedValue
 	int product_id;
-	
-	private String product_name;
+	private int brand_id;
+	private int supplier_id;
 	private String catagory;
 	private String sub_catagory;
-	private int brand_id;
+	private String product_name;
 	private double price;
 	private String product_details;
 	private int total_stock;
-	private int supplier_id;
+	
 	
 	
 	public Products() {}
