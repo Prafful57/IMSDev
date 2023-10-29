@@ -2,6 +2,7 @@ package ims.dev.entity;
 
 import java.sql.Date;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
