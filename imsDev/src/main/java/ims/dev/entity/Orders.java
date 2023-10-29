@@ -2,7 +2,6 @@ package ims.dev.entity;
 
 import java.sql.Date;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -23,7 +22,7 @@ public class Orders {
 	
 	private int product_id;
 	private int supplier_id;
-	private Date order_date;
+	private String order_date;
 	private int order_quantity;
 	private String order_status;
 	
