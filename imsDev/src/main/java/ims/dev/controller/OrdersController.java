@@ -25,7 +25,7 @@ import ims.dev.service.OrdersService;
 
 @RestController
 @RequestMapping("/all-orders")
-public class OrderController {
+public class OrdersController {
 
 	@Autowired
 	private OrdersService ordersService;
