@@ -1,16 +1,11 @@
 package ims.dev.controller;
 
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.service.annotation.GetExchange;
 
 import ims.dev.entity.Products;
 import ims.dev.repo.ProductsRepo;
@@ -38,7 +32,7 @@ public class ProductsController {
 	@PostMapping
 	public Products saveProduct(@RequestBody Products product) {
 		Products product1 = proService.saveProduct(product);
-		return product; 
+		return product1; 
 	}
 	
 	@GetMapping("/getproducts")
@@ -47,8 +41,19 @@ public class ProductsController {
 	}
 	
 	@DeleteMapping("/{product_id}")
-	public void deleteProduct(@PathVariable int product_id) {
-		proService.deleteProductById(product_id);
+	public ResponseEntity<Map<String, String>> deleteProduct(@PathVariable int product_id) {
+		Map<String, String> response = new HashMap<>();
+		//if case is not working 
+		Products product = proRepo.findById(product_id).get();
+		if(product.getProduct_id()!=product_id) {
+			response.put("Status", "Product is not Present try another Product");
+		return ResponseEntity.accepted().body(response);	
+		}
+		else {
+			proService.deleteProductById(product_id);
+			response.put("Status", "Deleted Successfull");
+			return ResponseEntity.accepted().body(response);			}
+		
 	}
 	
 	@PutMapping("/update-product/{product_id}")
