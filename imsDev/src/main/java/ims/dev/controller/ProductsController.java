@@ -32,7 +32,7 @@ public class ProductsController {
 	
 	@PostMapping
 	public ResponseEntity<HttpStatus> saveProduct(@RequestBody Products product) {
-		Products product1 = proService.saveProduct(product);
+		proService.saveProduct(product);
 		return ResponseEntity.ok(HttpStatus.ACCEPTED); 
 	}
 	
@@ -65,6 +65,7 @@ public class ProductsController {
 			}catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
+			
 	
 		Products product1 = proRepo.findById(product_id).get();
 		product1.setProduct_name(product.getProduct_name());

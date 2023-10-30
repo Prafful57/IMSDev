@@ -1,7 +1,5 @@
 package ims.dev.controller;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import ims.dev.entity.Orders;
 import ims.dev.repo.OrdersRepo;
@@ -36,14 +33,14 @@ public class OrdersController {
 	
 	@PostMapping("/save-order")
 	public ResponseEntity<HttpStatus> saveOrder(@RequestBody Orders order) {
-		Orders order1 = ordersService.saveOrder(order);
+		ordersService.saveOrder(order);
 		return  ResponseEntity.ok(HttpStatus.ACCEPTED); 
 	}
 	
 	@GetMapping("/get-order")
 	public List<Orders> getAllOrders() {
-		List<Orders> order1 = ordersService.findAllOrders();
-		return order1;
+		return  ordersService.findAllOrders();
+		
 	}
 	
 	@DeleteMapping("/delete-order/{order_id}")
@@ -51,14 +48,14 @@ public class OrdersController {
 		Map<String ,String> response = new HashMap<>();
 		boolean order = orderRepo.existsById(order_id);
 		
-		//this also not working
+		//this is not working
 		if(order==false) {
 			response.put("Status", "Order not exists");
 			return ResponseEntity.accepted().body(response);
 		}
 		ordersService.deleteOrder(order_id);
 		response.put("Status", "Deleted Successfull");
-		return ResponseEntity.accepted().body(response);
+		return ResponseEntity.accepted().body(response); // here i am sending custom status
 	}
 	
 	@PutMapping("/update-order/{order_id}")
@@ -72,6 +69,6 @@ public class OrdersController {
 		order1.setOrder_quantity(order.getOrder_quantity());
 		order1.setOrder_status(order.getOrder_status());
         order1.setOrder_date(dtf.format(now));
-		return ResponseEntity.accepted().body(order1);
+		return ResponseEntity.accepted().body(order1);//here sending updated order data
 	}
 }

@@ -47,6 +47,7 @@ public class BrandsController {
 	public Brands updateBrand(@PathVariable int brand_id, @RequestBody Brands brand) {
 		Brands brand1 = brandRepo.findById(brand_id).get();
 		brand1.setBrand_name(brand.getBrand_name());
+		brandRepo.save(brand1);
 		return brand1;
 		
 	}
