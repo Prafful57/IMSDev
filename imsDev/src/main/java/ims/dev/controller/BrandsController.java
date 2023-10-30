@@ -23,9 +23,9 @@ public class BrandsController {
 	@Autowired
 	private BrandsService brandService;
 	
-	
 	@Autowired
 	private BrandsRepo brandRepo;
+	
 	@PostMapping("/post-orders")
 	public Brands postOrders(@RequestBody Brands order) {
 		Brands brand1=brandService.saveBrand(order);
@@ -49,7 +49,6 @@ public class BrandsController {
 		brand1.setBrand_name(brand.getBrand_name());
 		brandRepo.save(brand1);
 		return brand1;
-		
 	}
 	
 	

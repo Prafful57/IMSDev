@@ -1,6 +1,7 @@
 package ims.dev.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -14,10 +15,13 @@ import lombok.Data;
 public class Users {
 
 	@Id
+	@GeneratedValue
 	int user_id;
 	
 	private String user_name;
 	private String user_pass;
 	private String user_role;
+	
+	public Users(){}
 	
 }

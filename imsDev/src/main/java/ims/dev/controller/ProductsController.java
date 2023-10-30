@@ -41,7 +41,7 @@ public class ProductsController {
 		return proService.findAllProducts();
 	}
 	
-	@DeleteMapping("/{product_id}")
+	@DeleteMapping("/delete-product/{product_id}")
 	public ResponseEntity<Map<String, String>> deleteProduct(@PathVariable int product_id) {
 		Map<String, String> response = new HashMap<>();
 		//if case is not working 
