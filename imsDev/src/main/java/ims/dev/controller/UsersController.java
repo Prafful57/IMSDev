@@ -19,6 +19,7 @@ import ims.dev.repo.UsersRepo;
 import ims.dev.service.UsersService;
 import lombok.extern.apachecommons.CommonsLog;
 
+//@ApiModel(description = "Users Controller Api")
 @CommonsLog
 @RestController
 @RequestMapping("users")
@@ -36,7 +37,7 @@ public class UsersController {
 		log.info("Get Users Api Working");
 		return userService.getAllUsers();
 	}
-	
+//	@ApiModelProperty(notes="Post Api to save user")
 	@PostMapping("/save-user")
 	public ResponseEntity<HttpStatus> saveUser(@RequestBody Users user) {
 		Throwable debugMessage = new Exception("Received a user: ");
