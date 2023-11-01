@@ -1,0 +1,40 @@
+<Configuration status="INFO"><!-- Set the logging status to INFO level -->
+
+ <Properties><!-- This section allows you to define properties that can be used throughout the configuration. -->
+    <Property name="filename">./all_logs</Property><!-- Define a property named "filename" -->
+  </Properties>
+  
+    <Appenders><!--appenders determine where log messages are sent. -->
+    
+    <!--  name="File" It appends log messages to a file.  -->
+    <!-- The fileName attribute specifies the name of the log file, and filePattern defines 
+    how archived log files will be named based on the date. -->
+      <RollingFile name="File" 
+      fileName="${filename}/alllogs.log" 
+      filePattern="${filename}/alllogs-%d{yyyy-MM-dd}.log">
+      
+            <PatternLayout><!-- This element defines the layout for log messages -->
+                <pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</pattern>
+            </PatternLayout>
+            
+                <SizeBasedTriggeringPolicy size="1 MB"/><!--log file size after reaching this level creates new file-->
+        </RollingFile>
+        
+        <Console name="Console" target="SYSTEM_OUT"><!-- This is a Console appender that prints log messages to the console (stdout). -->
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+    </Appenders>
+    
+    <Loggers><!--This section defines loggers, which are used to categorize log messages.-->
+    <Logger name="logginginformation" level="info" additivity="false">
+      <AppenderRef ref="Console"/><!--log in console-->
+      <AppenderRef ref="File"/><!--log in file-->
+    </Logger>
+    
+        <Root level="debug"><!--This configures the root logger with a log level of INFO.-->
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+    
+</Configuration>
