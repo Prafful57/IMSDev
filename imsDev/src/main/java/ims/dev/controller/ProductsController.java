@@ -1,8 +1,6 @@
 package ims.dev.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,54 +17,53 @@ import org.springframework.web.bind.annotation.RestController;
 import ims.dev.entity.Products;
 import ims.dev.repo.ProductsRepo;
 import ims.dev.service.ProductsService;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/all-products")
 public class ProductsController {
 
-	@Autowired //(it is used to automatic dependency injection it creates object of ProductService and use when it is needed)
+	@Autowired // (it is used to automatic dependency injection it creates object of
+				// ProductService and use when it is needed)
 	private ProductsService proService;
-	
+
 	@Autowired
 	private ProductsRepo proRepo;
-	
+
 	@PostMapping
 	public ResponseEntity<HttpStatus> saveProduct(@RequestBody Products product) {
+		log.debug("Saving product :", product);
 		proService.saveProduct(product);
-		return ResponseEntity.ok(HttpStatus.ACCEPTED); 
+		return ResponseEntity.ok(HttpStatus.ACCEPTED);
 	}
-	
+
 	@GetMapping("/getproducts")
 	public List<Products> getProducts() {
+		log.info("Getting list of Products");
 		return proService.findAllProducts();
 	}
-	
+
 	@DeleteMapping("/delete-product/{product_id}")
-	public ResponseEntity<Map<String, String>> deleteProduct(@PathVariable int product_id) {
-		Map<String, String> response = new HashMap<>();
-		//if case is not working 
-		Products product = proRepo.findById(product_id).get();
-		if(product.getProduct_id()!=product_id) {
-			response.put("Status", "Product is not Present try another Product");
-		return ResponseEntity.accepted().body(response);	
+	public ResponseEntity<?> deleteProduct(@PathVariable int product_id) {
+		log.debug("Deleting product with productId : ", product_id);
+		boolean productId = proRepo.existsById(product_id);
+		if (productId == false) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		else {
-			proService.deleteProductById(product_id);
-			response.put("Status", "Deleted Successfull");
-			return ResponseEntity.accepted().body(response);			}
-		
+		proService.deleteProductById(product_id);
+		return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
 	}
-	
+
 	@PutMapping("/update-product/{product_id}")
-	public ResponseEntity<Products> updateProduct(@PathVariable int product_id ,@RequestBody Products product){
-	         
-			try{
-				if(product.getProduct_id()!=product_id);
-			}catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
-			
-	
+	public ResponseEntity<?> updateProduct(@PathVariable int product_id, @RequestBody Products product) {
+		log.debug("Updating product with productId : ", product_id);
+		boolean productId = proRepo.existsById(product_id);
+		if (productId == false) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
 		Products product1 = proRepo.findById(product_id).get();
 		product1.setProduct_name(product.getProduct_name());
 		product1.setProduct_details(product.getProduct_details());
@@ -74,10 +71,10 @@ public class ProductsController {
 		product1.setCatagory(product.getCatagory());
 		product1.setSub_catagory(product.getSub_catagory());
 		product1.setTotal_stock(product.getTotal_stock());
-		
+
 		proRepo.save(product1);
 		return ResponseEntity.accepted().body(product1);
-		
+
 	}
 
 }

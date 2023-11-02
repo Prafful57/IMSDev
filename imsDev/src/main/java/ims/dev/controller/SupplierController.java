@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import ims.dev.entity.Supplier;
 import ims.dev.repo.SupplierRepo;
 import ims.dev.service.SupplierService;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/all-suppliers")
 public class SupplierController {
@@ -29,24 +31,36 @@ public class SupplierController {
 	private SupplierRepo supRepo;
 	
 	@PostMapping("/supplier")
-	public ResponseEntity<HttpStatus> saveSupplier(@RequestBody Supplier supplier){
+	public ResponseEntity<?> saveSupplier(@RequestBody Supplier supplier){
+		log.debug("Saving Supplier :", supplier);
 		supService.saveSupplier(supplier);
-		return ResponseEntity.accepted().body(HttpStatus.ACCEPTED);	
+		return new ResponseEntity<>(HttpStatus.ACCEPTED);	
 	}
 	
 	@GetMapping("/get-suppliers")
 	public List<Supplier> getSuppliers() {
+		log.info("Getting list of all Suppliers");
 		return supService.getAllSuppliers();
 	}
 	
 	@DeleteMapping("/delete-supplier/{supplier_id}")
-	public ResponseEntity<HttpStatus> deleteSupplier(@PathVariable int supplier_id) {
+	public ResponseEntity<?> deleteSupplier(@PathVariable int supplier_id) {
+		log.debug("Deleting supplier with SupplierId : ",supplier_id);
+		boolean supplierId = supRepo.existsById(supplier_id);
+		if(supplierId==false) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 		supService.deleteSupplier(supplier_id);
-		return ResponseEntity.accepted().body(HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
 	
 	@PutMapping("/update-supplier/{supplier_id}")
-	public ResponseEntity<Supplier> updateSupplier(@PathVariable int supplier_id,@RequestBody Supplier supplier) {
+	public ResponseEntity<?> updateSupplier(@PathVariable int supplier_id,@RequestBody Supplier supplier) {
+		log.debug("Updating Supplier by SupplierId : ", supplier_id);
+		boolean supplierId = supRepo.existsById(supplier_id);
+		if(supplierId==false) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 		Supplier supp = supRepo.findById(supplier_id).get();
 		supp.setSupplier_name(supplier.getSupplier_name());
 		supp.setContact(supplier.getContact());

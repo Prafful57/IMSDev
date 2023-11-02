@@ -7,7 +7,6 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-
 @Data
 @AllArgsConstructor
 @Entity
@@ -17,11 +16,12 @@ public class Users {
 	@Id
 	@GeneratedValue
 	int user_id;
-	
+
 	private String user_name;
 	private String user_pass;
 	private String user_role;
-	
-	public Users(){}
-	
+
+	public Users() {
+	}
+
 }

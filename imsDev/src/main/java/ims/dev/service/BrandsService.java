@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import ims.dev.entity.Brands;
 import ims.dev.repo.BrandsRepo;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class BrandsService {
 
@@ -16,14 +18,17 @@ public class BrandsService {
 	private BrandsRepo brandRepo;
 
 	public Brands saveBrand(Brands brand) {
+		log.debug("Saved Brand Service : ",brand);
 		return brandRepo.save(brand) ;
 	}
 
 	public List<Brands> getAllBrands() {
+		log.info("Getting all Brands from repo");
 		return brandRepo.findAll();
 	}
 
 	public void deleteBrand(int brand_id) {
+		log.debug("Deleting brand from repo with brandID : ",brand_id);
 		brandRepo.deleteById(brand_id);
 		
 	}

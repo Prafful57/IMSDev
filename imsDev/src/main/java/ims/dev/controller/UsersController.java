@@ -17,50 +17,61 @@ import org.springframework.web.bind.annotation.RestController;
 import ims.dev.entity.Users;
 import ims.dev.repo.UsersRepo;
 import ims.dev.service.UsersService;
-import lombok.extern.apachecommons.CommonsLog;
+import lombok.extern.slf4j.Slf4j;
 
 //@ApiModel(description = "Users Controller Api")
-@CommonsLog
+@Slf4j
 @RestController
 @RequestMapping("users")
 public class UsersController {
 
-	
 	@Autowired
 	private UsersService userService;
-	
+
 	@Autowired
 	private UsersRepo userRepo;
-	
+
 	@GetMapping("/get-users")
-	public List<Users> getAllUsers(){
+	public List<Users> getAllUsers() {
 		log.info("Get Users Api Working");
 		return userService.getAllUsers();
 	}
+
 //	@ApiModelProperty(notes="Post Api to save user")
 	@PostMapping("/save-user")
-	public ResponseEntity<HttpStatus> saveUser(@RequestBody Users user) {
-		Throwable debugMessage = new Exception("Received a user: ");
-		log.debug( user, debugMessage);
+	public ResponseEntity<?> saveUser(@RequestBody Users user) {
+//		Throwable debugMessage = new Exception("Received a user: ");
+//		log.debug( "Saving the user ", user);
+		log.debug("Saving the user : ",user);
 		userService.saveUser(user);
-		return ResponseEntity.accepted().body(HttpStatus.ACCEPTED);
-	}
-	@DeleteMapping("/delete-user/{user_id}")
-	public ResponseEntity<String> deleteUser(@PathVariable int user_id){
-		userService.deleteUser(user_id);
-		return ResponseEntity.accepted().body("Deleted Successfully");
-	}
-	
-	@PutMapping("/update-user/{user_id}")
-	public ResponseEntity<Users> updateUser(@PathVariable int user_id, @RequestBody Users user){
+		return new ResponseEntity<>(HttpStatus.ACCEPTED);
 		
+	}
+
+	@DeleteMapping("/delete-user/{user_id}")
+	public ResponseEntity<?> deleteUser(@PathVariable int user_id) {
+		log.debug("Deleting user with userId : ", user_id);
+		boolean userId = userRepo.existsById(user_id);
+		if (userId == false) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		userService.deleteUser(user_id);
+		return new ResponseEntity<>(HttpStatus.ACCEPTED);
+	}
+
+	@PutMapping("/update-user/{user_id}")
+	public ResponseEntity<Users> updateUser(@PathVariable int user_id, @RequestBody Users user) {
+		boolean userId = userRepo.existsById(user_id);
+		if (userId == false) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 		Users user1 = userRepo.findById(user_id).get();
 		user1.setUser_name(user.getUser_name());
 		user1.setUser_pass(user.getUser_pass());
 		user1.setUser_role(user.getUser_role());
 		userRepo.save(user1);
-		log.info("user data is updated");
+		log.debug("user data is updated to : ", user1);
 		return ResponseEntity.accepted().body(user1);
 	}
-	
+
 }

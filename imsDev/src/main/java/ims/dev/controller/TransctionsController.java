@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import ims.dev.entity.Transctions;
 import ims.dev.repo.TransctionsRepo;
 import ims.dev.service.TransctionsService;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/all-transctions")
 public class TransctionsController {
@@ -28,18 +30,25 @@ public class TransctionsController {
 	private TransctionsRepo transRepo;
 	
 	@PostMapping("/transction")
-	public ResponseEntity<HttpStatus> makeTransction(@RequestBody Transctions transction) {
+	public ResponseEntity<?> makeTransction(@RequestBody Transctions transction) {
+		log.debug("Saved Transction : ", transction );
 		transService.saveTransction(transction);
-		 return ResponseEntity.ok(HttpStatus.ACCEPTED);
+		 return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
 	
 	@GetMapping("/get-transctions")
 	public List<Transctions> getALLTransctions(){
+		log.info("Getting Users List");
 		return transService.getTransctions();
 	}
 	
 	@PutMapping("/update-transction/{transction_id}")
-	public ResponseEntity<Transctions> updateTransction(@PathVariable int transction_id, @RequestBody Transctions transction) {
+	public ResponseEntity<?> updateTransction(@PathVariable int transction_id, @RequestBody Transctions transction) {
+		log.debug("Updating transction with transctionId : ",transction_id);
+		boolean transctionId = transRepo.existsById(transction_id);
+		if(transctionId==false) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 		Transctions trans = transRepo.findById(transction_id).get();
 		trans.setTrancstion_type(transction.getTrancstion_type());
 //		trans.setTransction_date(null);
