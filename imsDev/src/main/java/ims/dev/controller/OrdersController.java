@@ -2,6 +2,7 @@ package ims.dev.controller;
 
 import java.time.LocalDateTime;
 
+
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -65,13 +66,14 @@ public class OrdersController {
 		}
 		// not getting how to post date it is seeing in response body but not getting
 		// store in db
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-		LocalDateTime now = LocalDateTime.now();
+//		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+//		LocalDateTime now = LocalDateTime.now();
 
 		Orders order1 = orderRepo.findById(order_id).get();
 		order1.setOrder_quantity(order.getOrder_quantity());
 		order1.setOrder_status(order.getOrder_status());
-		order1.setOrder_date(dtf.format(now));
+		order1.setUpdated_by(order.getUpdated_by());
+//		order1.setOrder_date(dtf.format(now));
 		return ResponseEntity.accepted().body(order1);// here sending updated order data
 	}
 }
