@@ -1,19 +1,21 @@
 package ims.dev.entity;
-
 import java.sql.Date;
-
+import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import ims.dev.entity.Products;
 
 
 @Data
@@ -23,27 +25,33 @@ import lombok.Data;
 public class Orders {
 
 	@Id
-	@GeneratedValue
-	int order_id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int OrderId;
 	
-	private int product_id;
-	private int supplier_id;
+//	private int product_id;
+	private int supplierId;
 	
 	@CreationTimestamp
 	@Column(nullable=false,updatable = false)
-	private Date created_at;
+	private Date createdAt;
 	
 	@UpdateTimestamp
-	private Date updated_at;
-	private int order_quantity;
-	private String order_status;
+	private Date updatedAt;
+	
+	private int orderQuantity;
+	private String orderStatus;
 	
 	@CreatedBy
-	private String created_by="System user 1";
+	private String createdBy="System user 1";
 	
 	@LastModifiedBy
-	private String updated_by="System user 2";
+	private String updatedBy="System user 3";
 	Orders(){}
 	
+	
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	private List<Products> products;
+	
+
 		
 }

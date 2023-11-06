@@ -1,9 +1,6 @@
 package ims.dev.controller;
 
-import java.time.LocalDateTime;
 
-
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ims.dev.entity.Orders;
+import ims.dev.entity.Products;
 import ims.dev.repo.OrdersRepo;
 import ims.dev.service.OrdersService;
 import lombok.extern.slf4j.Slf4j;
@@ -46,34 +44,44 @@ public class OrdersController {
 		return ordersService.findAllOrders();
 	}
 
-	@DeleteMapping("/delete-order/{order_id}")
-	public ResponseEntity<?> deleteOrder(@PathVariable int order_id) {
-		log.debug("Deleting order with orderId : ", order_id);
-		boolean order = orderRepo.existsById(order_id);
+	@DeleteMapping("/delete-order/{orderId}")
+	public ResponseEntity<?> deleteOrder(@PathVariable int orderId) {
+		log.debug("Deleting order with orderId : ", orderId);
+		boolean order = orderRepo.existsById(orderId);
 		if (order == false) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		ordersService.deleteOrder(order_id);
+		ordersService.deleteOrder(orderId);
 		return new ResponseEntity<>(HttpStatus.ACCEPTED); // here i am sending custom status
 	}
 
-	@PutMapping("/update-order/{order_id}")
-	public ResponseEntity<?> updateOrder(@PathVariable int order_id, @RequestBody Orders order) {
-		log.debug("Updating order with orderId : ", order_id);
-		boolean orderId = orderRepo.existsById(order_id);
-		if (orderId == false) {
+	@PutMapping("/update-order/{id}")
+	public ResponseEntity<?> updateOrder(@PathVariable int orderId, @RequestBody Orders order) {
+		log.debug("Updating order with orderId : ", orderId);
+		
+		boolean orderId1 = orderRepo.existsById(orderId);
+		if (orderId1 == false) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		// not getting how to post date it is seeing in response body but not getting
-		// store in db
-//		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-//		LocalDateTime now = LocalDateTime.now();
-
-		Orders order1 = orderRepo.findById(order_id).get();
-		order1.setOrder_quantity(order.getOrder_quantity());
-		order1.setOrder_status(order.getOrder_status());
-		order1.setUpdated_by(order.getUpdated_by());
-//		order1.setOrder_date(dtf.format(now));
-		return ResponseEntity.accepted().body(order1);// here sending updated order data
+		Orders order1 = orderRepo.findById(orderId).get();
+		order1.setOrderQuantity(order.getOrderQuantity());
+		order1.setOrderStatus(order.getOrderStatus());
+		order1.setUpdatedBy(order.getUpdatedBy());
+		orderRepo.save(order1);
+		return ResponseEntity.accepted().body(order1);
 	}
+	
+	//one order can have many products 
+	@PostMapping("/{orderId}/products")
+	public ResponseEntity<?> addProductsToOrder(@PathVariable int orderId,@RequestBody Products product){
+		Orders updatedOrder= ordersService.addProductToOrder(orderId,product);
+		return new ResponseEntity<>(updatedOrder,HttpStatus.OK);
+	
+	}
+//	@GetMapping("/ordered-products/{orderId}")
+//	public List<Products> getAllOrderedProducts(@PathVariable int orderId){
+//		 List<Products> products = ordersService.getAllOrderedProducts(orderId);
+//		 return  products;
+//	}
+	
 }

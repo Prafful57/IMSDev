@@ -1,7 +1,11 @@
 package ims.dev.entity;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -14,12 +18,18 @@ import lombok.Data;
 public class Users {
 
 	@Id
-	@GeneratedValue
-	int user_id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int userId;
 
-	private String user_name;
-	private String user_pass;
-	private String user_role;
+	private String userName;
+	private String userPass;
+	private String userRole;
+	
+	@CreatedBy
+	private String createdBy;
+	
+	@LastModifiedBy
+	private String updatedBy;
 
 	public Users() {
 	}

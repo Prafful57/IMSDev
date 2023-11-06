@@ -46,28 +46,28 @@ public class BrandsController {
 	}
 	
 
-	@DeleteMapping("/delete-brand/{brand_id}")
-	public ResponseEntity<?> deleteOrder(@PathVariable int brand_id) {
-		log.debug("Deleting Brand Info with Id : ", brand_id);
-		boolean brandId = brandRepo.existsById(brand_id);
+	@DeleteMapping("/delete-brand/{id}")
+	public ResponseEntity<?> deleteOrder(@PathVariable int id) {
+		log.debug("Deleting Brand Info with Id : ", id);
+		boolean brandId = brandRepo.existsById(id);
 		if(brandId==false) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		brandService.deleteBrand(brand_id);
+		brandService.deleteBrand(id);
 		return new ResponseEntity<>(HttpStatus.ACCEPTED);
 		
 	}
 	
 
-	@PutMapping("/update-brand/{brand_id}")
-	public ResponseEntity<?> updateBrand(@PathVariable int brand_id, @RequestBody Brands brand) {
-		log.debug("updated brand info with brandId : ",brand_id);
-		boolean brandId = brandRepo.existsById(brand_id);
+	@PutMapping("/update-brand/{id}")
+	public ResponseEntity<?> updateBrand(@PathVariable int id, @RequestBody Brands brand) {
+		log.debug("updated brand info with brandId : ",id);
+		boolean brandId = brandRepo.existsById(id);
 		if(brandId==false) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		Brands brand1 = brandRepo.findById(brand_id).get();
-		brand1.setBrand_name(brand.getBrand_name());
+		Brands brand1 = brandRepo.findById(id).get();
+		brand1.setBrandName(brand.getBrandName());
 		brandRepo.save(brand1);
 		return ResponseEntity.accepted().body(brand1);
 	}

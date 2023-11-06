@@ -27,9 +27,9 @@ public class BrandsService {
 		return brandRepo.findAll();
 	}
 
-	public void deleteBrand(int brand_id) {
-		log.debug("Deleting brand from repo with brandID : ",brand_id);
-		brandRepo.deleteById(brand_id);
+	public void deleteBrand(int id) {
+		log.debug("Deleting brand from repo with brandID : ",id);
+		brandRepo.deleteById(id);
 		
 	}
 	

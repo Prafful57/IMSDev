@@ -26,9 +26,9 @@ public class SupplierService {
 		return supRepo.findAll();
 	}
 
-	public void deleteSupplier(int supplier_id) {
-		log.debug("Deleting supplier with supplierID : ", supplier_id);
-		supRepo.deleteById(supplier_id);
+	public void deleteSupplier(int id) {
+		log.debug("Deleting supplier with supplierID : ", id);
+		supRepo.deleteById(id);
 	}
 
 }

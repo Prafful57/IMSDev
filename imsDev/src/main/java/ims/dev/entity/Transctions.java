@@ -5,6 +5,7 @@ import java.sql.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -20,12 +21,12 @@ import lombok.Data;
 public class Transctions {
 
 	@Id
-	@GeneratedValue
-	int transction_id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int transctionId;
 	
-	private int product_id;
-	private String trancstion_type;
-	private Date transction_date;
+	private int productId;
+	private String trancstionType;
+	private Date transctionDate;
 	
 	Transctions(){}
 	

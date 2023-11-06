@@ -2,6 +2,7 @@ package ims.dev.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -15,9 +16,9 @@ import lombok.Data;
 public class Supplier {
 
 	@Id
-	@GeneratedValue
-	int supplier_id;
-	private String supplier_name;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	int supplierId;
+	private String supplierName;
 	private String contact;
 	
 	public Supplier() {}

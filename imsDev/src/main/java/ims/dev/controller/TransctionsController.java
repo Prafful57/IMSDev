@@ -42,16 +42,16 @@ public class TransctionsController {
 		return transService.getTransctions();
 	}
 	
-	@PutMapping("/update-transction/{transction_id}")
-	public ResponseEntity<?> updateTransction(@PathVariable int transction_id, @RequestBody Transctions transction) {
-		log.debug("Updating transction with transctionId : ",transction_id);
-		boolean transctionId = transRepo.existsById(transction_id);
+	@PutMapping("/update-transction/{id}")
+	public ResponseEntity<?> updateTransction(@PathVariable int id, @RequestBody Transctions transction) {
+		log.debug("Updating transction with transctionId : ",id);
+		boolean transctionId = transRepo.existsById(id);
 		if(transctionId==false) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		Transctions trans = transRepo.findById(transction_id).get();
-		trans.setTrancstion_type(transction.getTrancstion_type());
-//		trans.setTransction_date(null);
+		Transctions trans = transRepo.findById(id).get();
+		trans.setTrancstionType(transction.getTrancstionType());
+//		trans.settransctionDate(null);
 		transRepo.save(trans);
 		return ResponseEntity.accepted().body(trans);
 	}

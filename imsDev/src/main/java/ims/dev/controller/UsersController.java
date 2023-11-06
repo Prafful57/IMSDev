@@ -66,9 +66,9 @@ public class UsersController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		Users user1 = userRepo.findById(user_id).get();
-		user1.setUser_name(user.getUser_name());
-		user1.setUser_pass(user.getUser_pass());
-		user1.setUser_role(user.getUser_role());
+		user1.setUserName(user.getUserName());
+		user1.setUserPass(user.getUserPass());
+		user1.setUserRole(user.getUserRole());
 		userRepo.save(user1);
 		log.debug("user data is updated to : ", user1);
 		return ResponseEntity.accepted().body(user1);

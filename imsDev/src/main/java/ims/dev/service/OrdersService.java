@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ims.dev.entity.Orders;
+import ims.dev.entity.Products;
 import ims.dev.repo.OrdersRepo;
+import ims.dev.repo.ProductsRepo;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -15,6 +17,9 @@ public class OrdersService {
 
 	@Autowired
 	private OrdersRepo orderRepo;
+	
+	@Autowired
+	private ProductsRepo proRepo;
 	
 	public Orders saveOrder(Orders order) {
 		log.info("Saving Order :", order);
@@ -26,9 +31,21 @@ public class OrdersService {
 		return orderRepo.findAll();
 	}
 
-	public void deleteOrder(int order_id) {
-		log.debug("Deleting the order with order_id:", order_id);;
-		orderRepo.deleteById(order_id);
+	public void deleteOrder(int orderId) {
+		log.debug("Deleting the order with id:", orderId);;
+		orderRepo.deleteById(orderId);
 	}
+
+	public Orders addProductToOrder(int orderId,Products product) {
+		Orders order= orderRepo.findById(orderId).get();
+		product.setOrder(order);
+		proRepo.save(product);
+		return order;
+	}
+
+
+//	public List<Products> getAllOrderedProducts(int orderId) {
+//		return proRepo.findByOrderId(orderId);
+//	}
 
 }

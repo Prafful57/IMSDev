@@ -43,26 +43,26 @@ public class SupplierController {
 		return supService.getAllSuppliers();
 	}
 	
-	@DeleteMapping("/delete-supplier/{supplier_id}")
-	public ResponseEntity<?> deleteSupplier(@PathVariable int supplier_id) {
-		log.debug("Deleting supplier with SupplierId : ",supplier_id);
-		boolean supplierId = supRepo.existsById(supplier_id);
+	@DeleteMapping("/delete-supplier/{id}")
+	public ResponseEntity<?> deleteSupplier(@PathVariable int id) {
+		log.debug("Deleting supplier with SupplierId : ",id);
+		boolean supplierId = supRepo.existsById(id);
 		if(supplierId==false) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		supService.deleteSupplier(supplier_id);
+		supService.deleteSupplier(id);
 		return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
 	
-	@PutMapping("/update-supplier/{supplier_id}")
-	public ResponseEntity<?> updateSupplier(@PathVariable int supplier_id,@RequestBody Supplier supplier) {
-		log.debug("Updating Supplier by SupplierId : ", supplier_id);
-		boolean supplierId = supRepo.existsById(supplier_id);
+	@PutMapping("/update-supplier/{id}")
+	public ResponseEntity<?> updateSupplier(@PathVariable int id,@RequestBody Supplier supplier) {
+		log.debug("Updating Supplier by SupplierId : ", id);
+		boolean supplierId = supRepo.existsById(id);
 		if(supplierId==false) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		Supplier supp = supRepo.findById(supplier_id).get();
-		supp.setSupplier_name(supplier.getSupplier_name());
+		Supplier supp = supRepo.findById(id).get();
+		supp.setSupplierName(supplier.getSupplierName());
 		supp.setContact(supplier.getContact());
 		supRepo.save(supp);
 		return ResponseEntity.accepted().body(supp);
